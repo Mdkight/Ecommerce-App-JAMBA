@@ -1,69 +1,50 @@
 package com.revature.ecommerce.model;
 
-import java.time.LocalDate;
+import javax.persistence.EmbeddedId;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
-import javax.persistence.Entity;
+import org.springframework.stereotype.Component;
 
-@Entity
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Component
 public class Transaction {
+	
+	@EmbeddedId
+	private TransactionId id;
+	
+	@ManyToOne
+	@MapsId("movieId")
+	@JoinColumn(name = "movie_id")
+	private Movie movie;
+	
+	@ManyToOne
+	@MapsId("cartNumber")
+	@JoinColumn(name = "cart_number")
+	private Cart cart;
+	
+	private Integer quantity;
 
-	
-	private int customerId;//Foreign Key to Customer
-	private int cartNumber;//Foreign Key to Cart
-	
-	private LocalDate purchaseDate;
-	private float totalPrice;
-	
-	public Transaction() {
+	public Transaction(Movie movie, Cart cart, Integer quantity) {
 		super();
-	}
-
-	public Transaction(int customerId, int cartNumber, LocalDate purchaseDate, float totalPrice) {
-		super();
-		this.customerId = customerId;
-		this.cartNumber = cartNumber;
-		this.purchaseDate = purchaseDate;
-		this.totalPrice = totalPrice;
-	}
-
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
-
-	public int getCartNumber() {
-		return cartNumber;
-	}
-
-	public void setCartNumber(int cartNumber) {
-		this.cartNumber = cartNumber;
-	}
-
-	public LocalDate getPurchaseDate() {
-		return purchaseDate;
-	}
-
-	public void setPurchaseDate(LocalDate purchaseDate) {
-		this.purchaseDate = purchaseDate;
-	}
-
-	public float getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(float totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
-	@Override
-	public String toString() {
-		return "Transactions [customerId=" + customerId + ", cartNumber=" + cartNumber + ", purchaseDate="
-				+ purchaseDate + ", totalPrice=" + totalPrice + "]";
-	}
+		this.id = new TransactionId(movie.getId(), cart.getCartNumber());
+		this.movie = movie;
+		this.cart = cart;
+		this.quantity = quantity;
+	}	
 	
 	
+
 	
+
 }
