@@ -39,7 +39,7 @@ public class Movie {
 	private int inStock;
 	private String movieCoverLink;
 	
-	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
 	private Set<Transaction> transactions = new HashSet<>();
 	
 

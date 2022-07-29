@@ -37,7 +37,7 @@ public class CustomerProfile {
 public CustomerProfile(Customer customer, String firstName, String lastName, float accountBalance, String phoneNumber,
 			String address, String profilePicture) {
 		super();
-		this.customerId = customer.getCustomerId();
+		this.customerId = customer.getId();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountBalance = accountBalance;
