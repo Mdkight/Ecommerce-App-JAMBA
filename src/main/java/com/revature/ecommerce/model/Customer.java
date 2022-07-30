@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
@@ -30,15 +33,18 @@ public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	@Column(unique = true, nullable = false)
 	private String username;
 	private String password;
 	private String email;
 	
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "customer")
 	private Set<Cart> carts = new HashSet<>();
+	
+	@OneToOne(mappedBy = "customer")
+	private CustomerProfile customerProfile;
 	
 
 	public Customer(String username, String password, String email) {
