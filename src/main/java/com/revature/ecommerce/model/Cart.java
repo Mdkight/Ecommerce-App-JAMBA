@@ -33,8 +33,6 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer cartNumber;//Primary Key	
 	
-//	private Integer customerId;//Foreign Key to Customer (auto-created by @ManyToOne relationship)
-	
 	private LocalDate purchaseDate;
 	private float totalPrice;
 	
