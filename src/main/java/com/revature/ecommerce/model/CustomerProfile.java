@@ -1,6 +1,8 @@
 package com.revature.ecommerce.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -23,7 +25,10 @@ import lombok.ToString;
 public class CustomerProfile {
 
 	@Id
-	private Integer customerId;//Foreign Key to Customer
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer profileId;
+	
+//	private Integer customerId;//Foreign Key to Customer
 	
 	private String firstName;
 	private String lastName;
@@ -39,7 +44,6 @@ public class CustomerProfile {
 public CustomerProfile(Customer customer, String firstName, String lastName, float accountBalance, String phoneNumber,
 			String address, String profilePicture) {
 		super();
-		this.customerId = customer.getId();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountBalance = accountBalance;
