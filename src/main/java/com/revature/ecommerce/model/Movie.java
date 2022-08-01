@@ -4,7 +4,7 @@ import java.time.Year;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
@@ -39,7 +40,7 @@ public class Movie {
 	private int inStock;
 	private String movieCoverLink;
 	
-	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "movie")
 	private Set<Transaction> transactions = new HashSet<>();
 	
 
