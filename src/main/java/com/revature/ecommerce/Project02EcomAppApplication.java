@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan
 @SpringBootApplication
+@ComponentScan("com.revature.ecommerce")
 public class Project02EcomAppApplication {
 
 	public static void main(String[] args) {
