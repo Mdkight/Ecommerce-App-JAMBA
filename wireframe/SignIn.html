@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Sign In Page</title>
+</head>
+<body>
+    
+    <h1>Sign In Page:</h1>
+    <form id="SignIn" action="Welcome-page.html" method="post">
+        <label for="user">Enter your Username: </label>
+		<input type="text" name="user" placeholder="Username"/> <br/>
+		<label for="password">Enter your Password: </label>
+		<input type="password" name="password"placeholder="Password"/><br/>
+		<button id="b1" type="submit">Submit</button><br/>
+        <input type="reset" value="Reset"/><br/>
+        <script>
+            document.getElementById("b1"). addEventListener("click",buttonClick);
+        function buttonClick(){
+            alert("Welcome to JAMBA");
+        }
+        </script>
+    </form>
+    
+</body>
+</html>
