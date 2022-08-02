@@ -25,7 +25,6 @@ public class MainController {
 	@GetMapping("/login")
 	public ResponseEntity<Customer> loginAttempt(@RequestParam("username") String username, @RequestParam("password") String password){
 		//TODO complete login attempt method here
-		
-		
 	}
+	
 }
