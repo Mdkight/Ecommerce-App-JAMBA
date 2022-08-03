@@ -23,7 +23,6 @@ public class MovieController {
 	MovieRepository movieRepository;
 
 	
-	@PostMapping("/new")
 	public Movie addNewMovie(Movie newMovie) {
 		if (newMovie!=null) {
 		return movieRepository.save(newMovie);
@@ -43,12 +42,13 @@ public class MovieController {
 	
 	@GetMapping("/page_{num}")
 	public ResponseEntity<Page<Movie>> getAllMovies(@PathVariable(value = "num") Integer num){
-		Pageable firstPageWithTenElements; 
-		firstPageWithTenElements = PageRequest.of(num-1, 10, Sort.by("title"));
+		Pageable nextPageWithTenElements; 
+		nextPageWithTenElements = PageRequest.of(num-1, 10, Sort.by("title"));
 		
-		return ResponseEntity.ok().body(movieRepository.findAll(firstPageWithTenElements));
+		return ResponseEntity.ok(movieRepository.findAll(nextPageWithTenElements));
 	}
 	
+
 	
 	
 	//TODO make sure cart controller gets movie prices

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.ecommerce.model.Cart;
 import com.revature.ecommerce.model.Customer;
 import com.revature.ecommerce.repository.CustomerRepository;
 
@@ -25,6 +26,7 @@ public class MainController {
 	@GetMapping("/login")
 	public ResponseEntity<Customer> loginAttempt(@RequestParam("username") String username, @RequestParam("password") String password){
 		//TODO complete login attempt method here
+		
 	}
 	
 }
