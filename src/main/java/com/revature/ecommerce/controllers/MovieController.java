@@ -20,7 +20,6 @@ import com.revature.ecommerce.repository.MovieRepository;
 @CrossOrigin(origins = "*")
 @RequestMapping("/jamba/movie")
 public class MovieController {
-	
 	MovieRepository movieRepository;
 
 	
@@ -53,7 +52,7 @@ public class MovieController {
 	
 	
 	//TODO make sure cart controller gets movie prices
-	//TODO other methods needed: add movie to transaction and update movie quantity (Transaction controller instead?), 
-	//
+	//TODO Make sure Transaction controller has add movie to transaction and update movie quantity
+
 
 }
