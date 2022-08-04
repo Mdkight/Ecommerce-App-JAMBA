@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.ecommerce.exception.InsufficientFundsException;
 import com.revature.ecommerce.exception.NoResourceFoundException;
 import com.revature.ecommerce.model.Cart;
 import com.revature.ecommerce.model.Customer;
 import com.revature.ecommerce.model.Movie;
 import com.revature.ecommerce.model.Transaction;
 import com.revature.ecommerce.repository.CartRepository;
+import com.revature.ecommerce.repository.CustomerRepository;
 import com.revature.ecommerce.repository.MovieRepository;
 import com.revature.ecommerce.repository.TransactionRepository;
 
@@ -31,7 +33,9 @@ public class PurchaseController {
 	@Autowired
 	MovieRepository movieRepository;
 	@Autowired
-	TransactionRepository transactionRepository;
+	TransactionRepository transactionRepository;	
+	@Autowired
+	CustomerRepository customerRepository;
 
 	@RequestMapping("/cart")
 	public ResponseEntity<Cart> getCurrentCart(@RequestBody Customer customer) {
@@ -69,14 +73,20 @@ public class PurchaseController {
 	private Cart processCheckout(Cart cart) throws Exception {
 		cart.setPurchaseDate(LocalDate.now());
 		cartRepository.save(cart);
+		Customer customer = customerRepository.findById(cart.getCustomer().getId()).orElseThrow();
+		if(cart.getTotalPrice()>customer.getAccountBalance()) {
+			throw new InsufficientFundsException("You do not have enough funds in your account to make that purchase, Please add additional funds");
+		}else {
 		List<Transaction> allTransactionsForCart = transactionRepository
 				.findAllById_CartNumber(cart.getCartNumber());
 		for (Transaction t : allTransactionsForCart) {
 			Movie movie = movieRepository.findById(t.getId().getMovieId()).orElseThrow(() -> new Exception());
 			movie.setInStock(movie.getInStock() - t.getQuantity());
 		}
+		customer.setAccountBalance(customer.getAccountBalance()-cart.getTotalPrice());
 
 		return cart;
+		}
 
 	}
 

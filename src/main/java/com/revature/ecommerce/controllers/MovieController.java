@@ -45,12 +45,4 @@ public class MovieController {
 		
 		return ResponseEntity.ok(movieRepository.findAll(nextPageWithTenElements));
 	}
-	
-
-	
-	
-	//TODO make sure cart controller gets movie prices
-	//TODO Make sure Transaction controller has add movie to transaction and update movie quantity
-
-
 }

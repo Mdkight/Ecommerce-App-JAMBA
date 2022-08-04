@@ -37,6 +37,12 @@ public class Customer {
 	@Column(name = "cust_pwd")
 	private String password;
 	private String email;
+	private String firstName;
+	private String lastName;
+	private float accountBalance;
+	private String phoneNumber;
+	private String address;
+	private String profilePicture; 
 	
 	@OneToMany(mappedBy = "customer")
 	private Set<Cart> carts = new HashSet<>();
