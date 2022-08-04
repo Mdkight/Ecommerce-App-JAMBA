@@ -29,10 +29,12 @@ public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "cust_id")
 	private Integer id;
 
 	@Column(unique = true, nullable = false)
 	private String username;
+	@Column(name = "cust_pwd")
 	private String password;
 	private String email;
 	

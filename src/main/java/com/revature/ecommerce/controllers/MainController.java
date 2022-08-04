@@ -1,5 +1,6 @@
 package com.revature.ecommerce.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.ecommerce.model.Cart;
 import com.revature.ecommerce.model.Customer;
 import com.revature.ecommerce.repository.CustomerRepository;
 
@@ -15,7 +15,7 @@ import com.revature.ecommerce.repository.CustomerRepository;
 @CrossOrigin(origins = "*")
 @RequestMapping("/jamba")
 public class MainController {
-	
+	@Autowired
 	CustomerRepository customerRepository;
 
 	@RequestMapping("/main")
@@ -23,10 +23,10 @@ public class MainController {
 		return "main";
 	}
 	
-	@GetMapping("/login")
-	public ResponseEntity<Customer> loginAttempt(@RequestParam("username") String username, @RequestParam("password") String password){
-		//TODO complete login attempt method here
-		
-	}
+//	@GetMapping("/login")
+//	public ResponseEntity<Customer> loginAttempt(@RequestParam("username") String username, @RequestParam("password") String password){
+//		//TODO complete login attempt method here
+//		
+//	}
 	
 }

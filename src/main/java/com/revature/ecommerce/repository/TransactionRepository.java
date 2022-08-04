@@ -9,5 +9,5 @@ import com.revature.ecommerce.model.TransactionId;
 
 public interface TransactionRepository extends JpaRepository<Transaction, TransactionId> {
 
-	public List<Transaction> findAllByTransactionId_CartNumber(Integer cartNumber);
+	public List<Transaction> findAllById_CartNumber(Integer cartNumber);
 }

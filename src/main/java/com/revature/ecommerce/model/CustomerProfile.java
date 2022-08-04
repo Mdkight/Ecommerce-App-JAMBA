@@ -27,8 +27,7 @@ public class CustomerProfile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer profileId;
-	
-//	private Integer customerId;//Foreign Key to Customer
+
 	
 	private String firstName;
 	private String lastName;

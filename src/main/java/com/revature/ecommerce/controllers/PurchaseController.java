@@ -2,6 +2,8 @@ package com.revature.ecommerce.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,8 +26,11 @@ import com.revature.ecommerce.repository.TransactionRepository;
 @CrossOrigin(origins = "*")
 @RequestMapping("/jamba")
 public class PurchaseController {
+	@Autowired
 	CartRepository cartRepository;
+	@Autowired
 	MovieRepository movieRepository;
+	@Autowired
 	TransactionRepository transactionRepository;
 
 	@RequestMapping("/cart")
@@ -65,7 +70,7 @@ public class PurchaseController {
 		cart.setPurchaseDate(LocalDate.now());
 		cartRepository.save(cart);
 		List<Transaction> allTransactionsForCart = transactionRepository
-				.findAllByTransactionId_CartNumber(cart.getCartNumber());
+				.findAllById_CartNumber(cart.getCartNumber());
 		for (Transaction t : allTransactionsForCart) {
 			Movie movie = movieRepository.findById(t.getId().getMovieId()).orElseThrow(() -> new Exception());
 			movie.setInStock(movie.getInStock() - t.getQuantity());
@@ -81,7 +86,7 @@ public class PurchaseController {
 				.orElse(new Cart(customer));
 		
 		List<Transaction> allTransactionsForCart = transactionRepository
-				.findAllByTransactionId_CartNumber(currentCart.getCartNumber());
+				.findAllById_CartNumber(currentCart.getCartNumber());
 		boolean success = false;
 
 		for(Transaction t:allTransactionsForCart) {
