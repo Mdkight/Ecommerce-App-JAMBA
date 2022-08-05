@@ -8,5 +8,6 @@ import com.revature.ecommerce.model.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 	
+	public Customer findByUsername(String username);
 }
 
