@@ -1,5 +1,6 @@
 package com.revature.ecommerce.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,18 +22,12 @@ import com.revature.ecommerce.repository.MovieRepository;
 @CrossOrigin(origins = "*")
 @RequestMapping("/jamba/movie")
 public class MovieController {
-	
+	@Autowired
 	MovieRepository movieRepository;
 
-	
 	@PostMapping("/new")
-	public Movie addNewMovie(Movie newMovie) {
-		if (newMovie!=null) {
-		return movieRepository.save(newMovie);
-		}else {   
-			System.out.println("Not a valid entry (Entry may be null)");
-			return null;
-		}
+	public Movie addNewMovie(@RequestBody Movie newMovie) {	
+		return  movieRepository.save(newMovie);
 	}
 	
 	
@@ -44,16 +40,9 @@ public class MovieController {
 	
 	@GetMapping("/page_{num}")
 	public ResponseEntity<Page<Movie>> getAllMovies(@PathVariable(value = "num") Integer num){
-		Pageable firstPageWithTenElements; 
-		firstPageWithTenElements = PageRequest.of(num-1, 10, Sort.by("title"));
+		Pageable nextPageWithTenElements; 
+		nextPageWithTenElements = PageRequest.of(num-1, 10, Sort.by("title"));
 		
-		return ResponseEntity.ok().body(movieRepository.findAll(firstPageWithTenElements));
+		return ResponseEntity.ok(movieRepository.findAll(nextPageWithTenElements));
 	}
-	
-	
-	
-	//TODO make sure cart controller gets movie prices
-	//TODO other methods needed: add movie to transaction and update movie quantity (Transaction controller instead?), 
-	//
-
 }

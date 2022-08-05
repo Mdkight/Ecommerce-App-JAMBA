@@ -43,10 +43,10 @@ public class Cart {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
-	public Cart(LocalDate purchaseDate, float totalPrice) {
+	public Cart(Customer customer) {
 		super();
-		this.purchaseDate = purchaseDate;
-		this.totalPrice = totalPrice;
+		this.customer=customer;
+		
 	}
 
 	
