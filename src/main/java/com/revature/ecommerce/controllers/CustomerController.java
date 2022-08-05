@@ -2,6 +2,7 @@ package com.revature.ecommerce.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import com.revature.ecommerce.model.Customer;
 import com.revature.ecommerce.repository.CustomerRepository;
 
 @RestController
+@CrossOrigin(origins ="*")
 public class CustomerController {
 	@Autowired
 	CustomerRepository customerRepository;
