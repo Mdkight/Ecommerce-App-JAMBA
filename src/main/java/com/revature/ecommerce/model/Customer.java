@@ -34,7 +34,6 @@ public class Customer {
 
 	@Column(unique = true, nullable = false)
 	private String username;
-	@Column(name = "cust_pwd")
 	private String password;
 	private String email;
 	private String firstName;
