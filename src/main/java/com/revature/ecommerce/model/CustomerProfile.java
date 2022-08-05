@@ -1,8 +1,10 @@
 package com.revature.ecommerce.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
@@ -22,7 +25,10 @@ import lombok.ToString;
 public class CustomerProfile {
 
 	@Id
-	private Integer customerId;//Foreign Key to Customer
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer profileId;
+	
+//	private Integer customerId;//Foreign Key to Customer
 	
 	private String firstName;
 	private String lastName;
@@ -31,13 +37,13 @@ public class CustomerProfile {
 	private String address;
 	private String profilePicture; 
 
-	@OneToOne(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(optional = false)
+	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
 public CustomerProfile(Customer customer, String firstName, String lastName, float accountBalance, String phoneNumber,
 			String address, String profilePicture) {
 		super();
-		this.customerId = customer.getCustomerId();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountBalance = accountBalance;
