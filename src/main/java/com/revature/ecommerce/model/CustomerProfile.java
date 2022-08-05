@@ -1,15 +1,12 @@
 package com.revature.ecommerce.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
 import org.springframework.stereotype.Component;
 
 import lombok.EqualsAndHashCode;
@@ -25,47 +22,35 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @Component
-public class Customer {
+public class CustomerProfile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="cust_id")
-	private Integer id;
+	private Integer profileId;
 
-	@Column(unique = true, nullable = false)
-	private String username;
-	@Column(name = "cust_pwd")
-	private String password;
-	private String email;
+	
 	private String firstName;
 	private String lastName;
 	private float accountBalance;
 	private String phoneNumber;
 	private String address;
 	private String profilePicture; 
-	
-	@OneToMany(mappedBy = "customer")
-	private Set<Cart> carts = new HashSet<>();
 
-	public Customer(String username, String password, String email, String firstName, String lastName,
-			float accountBalance, String phoneNumber, String address, String profilePicture, Set<Cart> carts) {
+	@OneToOne(optional = false)
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
+
+public CustomerProfile(Customer customer, String firstName, String lastName, float accountBalance, String phoneNumber,
+			String address, String profilePicture) {
 		super();
-		this.username = username;
-		this.password = password;
-		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountBalance = accountBalance;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.profilePicture = profilePicture;
-		this.carts = carts;
 	}
 	
-//	@OneToOne(mappedBy = "customer")
-//	private CustomerProfile customerProfile;
 	
-
 	
-
 }
