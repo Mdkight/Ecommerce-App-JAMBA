@@ -57,7 +57,7 @@ public class PurchaseController {
 	@PostMapping("/movie/{title}/addtocart")
 	public ResponseEntity<Cart> addMovieToCart(@PathVariable(value = "title") String movieTitle,
 			@RequestBody Customer customer) throws NoResourceFoundException {
-		Movie movie = movieRepository.findByTitle(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
+		Movie movie = movieRepository.findByTitleContainingIgnoreCase(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
 		
 		return ResponseEntity.ok(addOrRemoveItem(customer, movie, 1));
 	}
@@ -65,7 +65,7 @@ public class PurchaseController {
 	@PostMapping("/movie/{title}/removefromcart")
 	public ResponseEntity<Cart> removeMovieFromCart(@PathVariable(value = "title") String movieTitle,
 			@RequestBody Customer customer) throws NoResourceFoundException {
-		Movie movie = movieRepository.findByTitle(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
+		Movie movie = movieRepository.findByTitleContainingIgnoreCase(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
 		return ResponseEntity.ok(addOrRemoveItem(customer, movie, -1));
 	}
 

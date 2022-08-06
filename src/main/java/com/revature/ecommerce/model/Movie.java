@@ -21,7 +21,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @Component
 public class Movie {
@@ -55,6 +54,14 @@ public class Movie {
 		this.rating = rating;
 		this.inStock = inStock;
 		this.movieCoverLink = movieCoverLink;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Movie [Id=" + Id + ", title=" + title + ", description=" + description + ", genre=" + genre
+				+ ", releaseYear=" + releaseYear + ", price=" + price + ", rating=" + rating + ", inStock=" + inStock
+				+ ", movieCoverLink=" + movieCoverLink + "]";
 	}
 
 	

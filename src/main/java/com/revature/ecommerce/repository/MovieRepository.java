@@ -10,7 +10,7 @@ import com.revature.ecommerce.model.Movie;
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
 	
-	public Optional<Movie> findByTitle(String title);
+	public Optional<Movie> findByTitleContainingIgnoreCase(String title);
 	
 	
 }

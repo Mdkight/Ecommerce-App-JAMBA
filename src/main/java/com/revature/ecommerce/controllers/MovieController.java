@@ -1,5 +1,7 @@
 package com.revature.ecommerce.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +21,7 @@ import com.revature.ecommerce.model.Movie;
 import com.revature.ecommerce.repository.MovieRepository;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RequestMapping("/jamba/movie")
 public class MovieController {
 	@Autowired
@@ -32,17 +34,23 @@ public class MovieController {
 	
 	
 	@RequestMapping("/{title}")
-	public ResponseEntity<Movie> getIndividualMovie(@PathVariable(value = "title") String movieTitle) throws NoResourceFoundException{
-		Movie movie = movieRepository.findByTitle(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
+	public ResponseEntity<Movie> getIndividualMovie(@PathVariable("title") String movieTitle) throws NoResourceFoundException{ 
+		movieTitle=String.join(" ",movieTitle.split("_"));
+		Movie movie = movieRepository.findByTitleContainingIgnoreCase(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
 		return ResponseEntity.ok().body(movie);
 	}
 	
 	
 	@GetMapping("/page_{num}")
-	public ResponseEntity<Page<Movie>> getAllMovies(@PathVariable(value = "num") Integer num){
+	public ResponseEntity<Page<Movie>> getAllMoviesInPages(@PathVariable(value = "num") Integer num){
 		Pageable nextPageWithTenElements; 
 		nextPageWithTenElements = PageRequest.of(num-1, 10, Sort.by("title"));
 		
 		return ResponseEntity.ok(movieRepository.findAll(nextPageWithTenElements));
+	}
+	
+	@GetMapping("/all-movies")
+	public ResponseEntity<List<Movie>> getAllMovies(){
+		return ResponseEntity.ok(movieRepository.findAll());
 	}
 }
