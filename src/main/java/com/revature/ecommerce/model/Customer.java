@@ -62,10 +62,6 @@ public class Customer {
 		this.carts = carts;
 	}
 	
-//	@OneToOne(mappedBy = "customer")
-//	private CustomerProfile customerProfile;
-	
-
 	
 
 }
