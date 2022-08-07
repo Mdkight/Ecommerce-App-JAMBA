@@ -23,7 +23,7 @@ public class CustomerController {
 
 	@GetMapping("/customer/{id}")
 	public ResponseEntity<Customer> getCustomerById(@PathVariable(value="id")Integer id) throws Exception {
-		Customer customer = customerRepository.findById(id).orElseThrow(()->new Exception());
+		Customer customer = customerRepository.findById(id).orElseThrow(()->new Exception("Unable to find Customer number: " + id));
 		return ResponseEntity.ok().body(customer);
 	}
 	
@@ -40,7 +40,7 @@ public class CustomerController {
 	
 	@PutMapping("/customer/{id}")
 	public ResponseEntity<Customer> updateCustomer(@PathVariable(value="id") Integer id, @RequestBody Customer customer) throws Exception{
-		Customer c = customerRepository.findById(id).orElseThrow(()->new Exception());
+		Customer c = customerRepository.findById(id).orElseThrow(()->new Exception("unable to Update your Customer Profile for customer number: " + id));
 		c.setUsername(customer.getUsername());
 		c.setPassword(customer.getPassword());
 		c.setEmail(customer.getEmail());
