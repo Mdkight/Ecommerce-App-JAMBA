@@ -31,7 +31,7 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = true)
 	private String username;
 	private String password;
 	private String email;

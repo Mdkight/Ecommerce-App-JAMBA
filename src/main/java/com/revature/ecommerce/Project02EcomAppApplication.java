@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 
 @SpringBootApplication
-@EnableSpringHttpSession
 public class Project02EcomAppApplication {
 
 	public static void main(String[] args) {
