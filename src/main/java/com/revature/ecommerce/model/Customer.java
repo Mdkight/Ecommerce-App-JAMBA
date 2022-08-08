@@ -32,7 +32,7 @@ public class Customer {
 	@Column(name="cust_id")
 	private Integer id;
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = true)
 	private String username;
 	private String password;
 	private String email;
