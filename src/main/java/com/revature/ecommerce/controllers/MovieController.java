@@ -24,14 +24,28 @@ import com.revature.ecommerce.repository.MovieRepository;
 @CrossOrigin
 @RequestMapping("/jamba/movie")
 public class MovieController {
-	@Autowired
+
 	MovieRepository movieRepository;
+
+	
+	@Autowired
+	public MovieController(MovieRepository movieRepository) {
+		super();
+		this.movieRepository = movieRepository;
+	}
 
 	@PostMapping("/new")
 	public Movie addNewMovie(@RequestBody Movie newMovie) {	
 		return  movieRepository.save(newMovie);
 	}
 	
+
+	@PostMapping("/allnew")
+	public List<Movie> addManyNewMovies(@RequestBody List<Movie> newMovies) {	
+		return  movieRepository.saveAll(newMovies);
+	}
+	
+
 	@RequestMapping("/{title}")
 	public ResponseEntity<Movie> getIndividualMovie(@PathVariable("title") String movieTitle) throws NoResourceFoundException{ 
 		movieTitle=String.join(" ",movieTitle.split("_"));
