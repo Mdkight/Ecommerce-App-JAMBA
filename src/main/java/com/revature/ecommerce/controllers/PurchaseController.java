@@ -28,14 +28,22 @@ import com.revature.ecommerce.repository.TransactionRepository;
 @CrossOrigin(origins = "*")
 @RequestMapping("/jamba")
 public class PurchaseController {
-	@Autowired
+
 	CartRepository cartRepository;
-	@Autowired
 	MovieRepository movieRepository;
-	@Autowired
-	TransactionRepository transactionRepository;	
-	@Autowired
+	TransactionRepository transactionRepository;
 	CustomerRepository customerRepository;
+
+	
+	@Autowired
+	public PurchaseController(CartRepository cartRepository, MovieRepository movieRepository,
+			TransactionRepository transactionRepository, CustomerRepository customerRepository) {
+		super();
+		this.cartRepository = cartRepository;
+		this.movieRepository = movieRepository;
+		this.transactionRepository = transactionRepository;
+		this.customerRepository = customerRepository;
+	}
 
 	@RequestMapping("/cart")
 	public ResponseEntity<Cart> getCurrentCart(@RequestBody Customer customer) {

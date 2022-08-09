@@ -21,16 +21,21 @@ import com.revature.ecommerce.repository.CustomerRepository;
 @CrossOrigin(origins = "*")
 @RequestMapping("/jamba")
 public class MainController {
-
-	@Autowired
+	
 	private CustomerRepository repository;
 	
+	
+	@Autowired
+	public MainController(CustomerRepository repository) {
+		super();
+		this.repository = repository;
+	}
+
 	@RequestMapping("/main")
 	public String showMain() {
 		return "main";
 	}
 	
-
 	@PostMapping("/login")
 	public ResponseEntity<Customer> loginUser(@RequestBody Customer customer, HttpServletRequest request) {
 

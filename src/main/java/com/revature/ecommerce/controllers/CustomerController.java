@@ -18,8 +18,14 @@ import com.revature.ecommerce.repository.CustomerRepository;
 @CrossOrigin(origins ="*")
 @RequestMapping("/jamba")
 public class CustomerController {
-	@Autowired
+	
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	public CustomerController(CustomerRepository customerRepository) {
+		super();
+		this.customerRepository = customerRepository;
+	}
 
 	@GetMapping("/customer/{id}")
 	public ResponseEntity<Customer> getCustomerById(@PathVariable(value="id")Integer id) throws Exception {
