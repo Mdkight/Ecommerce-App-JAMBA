@@ -39,19 +39,19 @@ public class MovieController {
 		return  movieRepository.save(newMovie);
 	}
 	
+
 	@PostMapping("/allnew")
 	public List<Movie> addManyNewMovies(@RequestBody List<Movie> newMovies) {	
 		return  movieRepository.saveAll(newMovies);
 	}
 	
-	
+
 	@RequestMapping("/{title}")
 	public ResponseEntity<Movie> getIndividualMovie(@PathVariable("title") String movieTitle) throws NoResourceFoundException{ 
 		movieTitle=String.join(" ",movieTitle.split("_"));
 		Movie movie = movieRepository.findByTitleContainingIgnoreCase(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
 		return ResponseEntity.ok().body(movie);
 	}
-	
 	
 	@GetMapping("/page_{num}")
 	public ResponseEntity<Page<Movie>> getAllMoviesInPages(@PathVariable(value = "num") Integer num){

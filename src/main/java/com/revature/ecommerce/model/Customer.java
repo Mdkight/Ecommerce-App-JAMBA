@@ -34,6 +34,7 @@ public class Customer {
 
 	@Column(unique = true)
 	private String username;
+	
 	private String password;
 	private String email;
 	private String firstName;
