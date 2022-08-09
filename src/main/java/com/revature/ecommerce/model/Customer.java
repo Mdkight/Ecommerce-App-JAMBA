@@ -29,25 +29,39 @@ public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="cust_id")
 	private Integer id;
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = true)
 	private String username;
+	
 	private String password;
 	private String email;
+	private String firstName;
+	private String lastName;
+	private float accountBalance;
+	private String phoneNumber;
+	private String address;
+	private String profilePicture; 
 	
 	@OneToMany(mappedBy = "customer")
 	private Set<Cart> carts = new HashSet<>();
-	
-	@OneToOne(mappedBy = "customer")
-	private CustomerProfile customerProfile;
-	
 
-	public Customer(String username, String password, String email) {
+	public Customer(String username, String password, String email, String firstName, String lastName,
+			float accountBalance, String phoneNumber, String address, String profilePicture, Set<Cart> carts) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.accountBalance = accountBalance;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.profilePicture = profilePicture;
+		this.carts = carts;
 	}
+	
+	
 
 }

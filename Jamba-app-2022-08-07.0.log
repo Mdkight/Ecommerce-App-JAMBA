@@ -1,0 +1,24 @@
+2022-08-07 16:57:51.082  INFO 3536 --- [restartedMain] c.r.e.Project02EcomAppApplication        : Starting Project02EcomAppApplication using Java 17.0.2 on LAPTOP-BBE4LK4D with PID 3536 (C:\trg_demos\061322\Java_Prjs\Ecommerce-App-JAMBA\target\classes started by micha in C:\trg_demos\061322\Java_Prjs\Ecommerce-App-JAMBA)
+2022-08-07 16:57:51.083  INFO 3536 --- [restartedMain] c.r.e.Project02EcomAppApplication        : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 16:57:51.126  INFO 3536 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-08-07 16:57:51.126  INFO 3536 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-08-07 16:57:51.635  INFO 3536 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-08-07 16:57:51.679  INFO 3536 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 4 JPA repository interfaces.
+2022-08-07 16:57:52.250  INFO 3536 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-08-07 16:57:52.261  INFO 3536 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-08-07 16:57:52.261  INFO 3536 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2022-08-07 16:57:52.461  INFO 3536 --- [restartedMain] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2022-08-07 16:57:52.474  INFO 3536 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-08-07 16:57:52.474  INFO 3536 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1346 ms
+2022-08-07 16:57:52.639  INFO 3536 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-08-07 16:57:52.692  INFO 3536 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.10.Final
+2022-08-07 16:57:52.835  INFO 3536 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-08-07 16:57:52.927  INFO 3536 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-08-07 16:57:54.088  INFO 3536 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-08-07 16:57:54.103  INFO 3536 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2022-08-07 16:57:56.051  INFO 3536 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-08-07 16:57:56.061  INFO 3536 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-08-07 16:57:56.625  WARN 3536 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-07 16:57:57.057  INFO 3536 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-08-07 16:57:57.110  INFO 3536 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-08-07 16:57:57.119  INFO 3536 --- [restartedMain] c.r.e.Project02EcomAppApplication        : Started Project02EcomAppApplication in 6.368 seconds (JVM running for 6.976)
