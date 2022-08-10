@@ -84,4 +84,23 @@ public class PurchaseService {
 		return currentCart;
 
 	}
+	
+	@Transactional
+	public Cart changeNumInCart(Customer customer, Cart cart, List<Transaction> cartItems) {
+		Cart currentCart = cartRepository.findByCustomerIdAndPurchaseDateIsNull(customer.getId())
+				.orElse(new Cart(customer));
+		currentCart.setTotalPrice(0);
+		List<Transaction> persistedInCart = transactionRepository
+				.findAllById_CartNumber(currentCart.getCartNumber());
+		
+		for(Transaction tran:persistedInCart) 
+			transactionRepository.delete(tran);
+		
+		for(Transaction carTran:cartItems) {
+			transactionRepository.save(carTran);
+			currentCart.setTotalPrice((float) (currentCart.getTotalPrice()+(carTran.getQuantity()*carTran.getMovie().getPrice())));
+		}
+		return currentCart;
+	}
+	
 }

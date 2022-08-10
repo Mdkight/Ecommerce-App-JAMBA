@@ -21,7 +21,6 @@ import lombok.ToString;
 @Setter
 @ToString
 @Component
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","movie", "cart"})
 public class Transaction {
 	
 	@EmbeddedId
