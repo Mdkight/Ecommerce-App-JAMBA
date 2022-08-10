@@ -12,8 +12,6 @@ import javax.persistence.OneToMany;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +22,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @EqualsAndHashCode
 @Component
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","transactions"})
@@ -59,14 +58,6 @@ public class Movie {
 		this.rating = rating;
 		this.inStock = inStock;
 		this.movieCoverLink = movieCoverLink;
-	}
-
-
-	@Override
-	public String toString() {
-		return "Movie [Id=" + Id + ", title=" + title + ", description=" + description + ", genre=" + genre
-				+ ", releaseYear=" + releaseYear + ", price=" + price + ", rating=" + rating + ", inStock=" + inStock
-				+ ", movieCoverLink=" + movieCoverLink + "]";
 	}
 
 	
