@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,6 +33,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @Component
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","customer"})
 public class Cart {
 
 	@Id
@@ -36,10 +43,11 @@ public class Cart {
 	private LocalDate purchaseDate;
 	private float totalPrice;
 	
+	
 	@OneToMany(mappedBy = "cart")
 	private Set<Transaction> transactions = new HashSet<>();
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
@@ -48,6 +56,10 @@ public class Cart {
 		this.customer=customer;
 		
 	}
+
+
+	
+
 
 	
 	
