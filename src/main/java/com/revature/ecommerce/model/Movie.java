@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @Component
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","transactions"})
 public class Movie {
 
 	@Id
@@ -38,6 +42,7 @@ public class Movie {
 	private double rating;
 	private int inStock;
 	private String movieCoverLink;
+	
 	
 	@OneToMany(mappedBy = "movie")
 	private Set<Transaction> transactions = new HashSet<>();

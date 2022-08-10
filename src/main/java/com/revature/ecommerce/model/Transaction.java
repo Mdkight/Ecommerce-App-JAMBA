@@ -8,6 +8,9 @@ import javax.persistence.MapsId;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,15 +22,18 @@ import lombok.ToString;
 @Setter
 @ToString
 @Component
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","movie", "cart"})
 public class Transaction {
 	
 	@EmbeddedId
 	private TransactionId id;
 	
+	
 	@ManyToOne
 	@MapsId("movieId")
 	@JoinColumn(name = "movie_id")
 	private Movie movie;
+	
 	
 	@ManyToOne
 	@MapsId("cartNumber")
@@ -39,8 +45,6 @@ public class Transaction {
 	public Transaction(Movie movie, Cart cart, Integer quantity) {
 		super();
 		this.id = new TransactionId(movie.getId(), cart.getCartNumber());
-		this.movie = movie;
-		this.cart = cart;
 		this.quantity = quantity;
 	}	
 	

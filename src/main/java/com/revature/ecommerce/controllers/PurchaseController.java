@@ -48,7 +48,7 @@ public class PurchaseController {
 	public ResponseEntity<Cart> getCurrentCart(@RequestBody Customer customer) {
 		Cart currentCart = cartRepository.findByCustomerIdAndPurchaseDateIsNull(customer.getId())
 				.orElse(new Cart(customer));
-
+		cartRepository.save(currentCart);
 		return ResponseEntity.ok(currentCart);
 
 	}
@@ -77,7 +77,7 @@ public class PurchaseController {
 	}
 
 	@Transactional
-	private Cart processCheckout(Cart cart) throws NoResourceFoundException,Exception {
+	public Cart processCheckout(Cart cart) throws Exception {
 		cart.setPurchaseDate(LocalDate.now());
 		cartRepository.save(cart);
 		Customer customer = customerRepository.findById(cart.getCustomer().getId()).orElseThrow();
@@ -98,7 +98,7 @@ public class PurchaseController {
 	}
 
 	@Transactional
-	private Cart addOrRemoveItem(Customer customer, Movie movie, int change) {
+	public Cart addOrRemoveItem(Customer customer, Movie movie, int change) {
 		Cart currentCart = cartRepository.findByCustomerIdAndPurchaseDateIsNull(customer.getId())
 				.orElse(new Cart(customer));
 		
