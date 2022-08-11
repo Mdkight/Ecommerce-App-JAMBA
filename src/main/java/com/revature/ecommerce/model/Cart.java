@@ -2,6 +2,7 @@ package com.revature.ecommerce.model;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -44,8 +45,8 @@ public class Cart {
 	private float totalPrice;
 	
 	
-	@OneToMany(mappedBy = "cart")
-	private Set<Transaction> transactions = new HashSet<>();
+	@OneToMany(mappedBy = "cart",fetch = FetchType.LAZY)
+	private List<Transaction> transactions;
 
 	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "customer_id")

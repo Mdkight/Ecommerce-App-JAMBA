@@ -49,7 +49,7 @@ public class Customer {
 	private String address;
 	private String profilePicture; 
 	
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
 	private Set<Cart> carts = new HashSet<>();
 
 	public Customer(String username, String password, String email, String firstName, String lastName,

@@ -64,7 +64,8 @@ public class PurchaseService {
 		List<Transaction> allTransactionsForCart = transactionRepository
 				.findAllById_CartNumber(currentCart.getCartNumber());
 		boolean success = false;
-
+			
+		if(allTransactionsForCart!=null) {
 		for(Transaction t:allTransactionsForCart) {
 			if (t.getId().getMovieId().equals(movie.getId())) {
 				t.setQuantity(t.getQuantity() + change);
@@ -76,12 +77,39 @@ public class PurchaseService {
 			}
 			
 		}
+	}
 		if(!success && change>0) {
-			new Transaction(movie, currentCart, change);
+			System.out.println("in new transaction: "+movie +" "+currentCart);
+			Transaction newTran=new Transaction(movie, currentCart, change);
+			System.out.println(newTran);
+			transactionRepository.save(newTran);
+			
 		}
 			
 
 		return currentCart;
 
 	}
+	
+	@Transactional
+	public Cart changeNumInCart(Customer customer, Cart cart, List<Transaction> cartItems) {
+		Cart currentCart = cartRepository.findByCustomerIdAndPurchaseDateIsNull(customer.getId())
+				.orElse(new Cart(customer));
+		currentCart.setTotalPrice(0);
+		List<Transaction> persistedInCart = transactionRepository
+				.findAllById_CartNumber(currentCart.getCartNumber());
+		
+		
+		if(persistedInCart!=null) {	
+		for(Transaction tran:persistedInCart) 
+			transactionRepository.delete(tran);
+		}
+		
+		for(Transaction carTran:cartItems) {
+			transactionRepository.save(carTran);
+			currentCart.setTotalPrice((float) (currentCart.getTotalPrice()+(carTran.getQuantity()*carTran.getMovie().getPrice())));
+		}
+		return currentCart;
+	}
+	
 }
