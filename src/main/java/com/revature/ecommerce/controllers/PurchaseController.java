@@ -1,5 +1,6 @@
 package com.revature.ecommerce.controllers;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.revature.ecommerce.exception.NoResourceFoundException;
 import com.revature.ecommerce.model.Cart;
@@ -19,9 +21,11 @@ import com.revature.ecommerce.repository.MovieRepository;
 import com.revature.ecommerce.repository.TransactionRepository;
 import com.revature.ecommerce.service.PurchaseService;
 
+import ch.qos.logback.classic.Logger;
+
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/jamba")
+@EnableWebMvc
 public class PurchaseController {
 
 	CartRepository cartRepository;
@@ -29,6 +33,7 @@ public class PurchaseController {
 	TransactionRepository transactionRepository;
 	CustomerRepository customerRepository;
 	PurchaseService purchaseService;
+	
 
 	
 	@Autowired
@@ -63,7 +68,7 @@ public class PurchaseController {
 	public ResponseEntity<Cart> addMovieToCart(@PathVariable(value = "title") String movieTitle,
 			@RequestBody Customer customer) throws NoResourceFoundException {
 		Movie movie = movieRepository.findByTitleContainingIgnoreCase(movieTitle).orElseThrow(() -> new NoResourceFoundException("No Movie by that Title Found"));
-		
+		System.out.println(movieTitle);
 		return ResponseEntity.ok(purchaseService.addOrRemoveItem(customer, movie, 1));
 	}
 
