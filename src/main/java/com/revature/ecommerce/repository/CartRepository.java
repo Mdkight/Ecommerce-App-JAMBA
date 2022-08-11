@@ -8,5 +8,5 @@ import com.revature.ecommerce.model.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
-	public Optional<Cart> findByCustomerIdAndPurchaseDateIsNull(Integer id);
+	public Optional<Cart> findByCustIdAndPurchaseDateIsNull(Integer custId);
 }

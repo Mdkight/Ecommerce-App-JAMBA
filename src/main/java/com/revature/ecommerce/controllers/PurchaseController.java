@@ -3,6 +3,7 @@ package com.revature.ecommerce.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,11 +52,12 @@ public class PurchaseController {
 
 	@RequestMapping("/cart")
 	public ResponseEntity<Cart> getCurrentCart(@RequestBody Customer customer) {
-		Cart currentCart = cartRepository.findByCustomerIdAndPurchaseDateIsNull(customer.getId())
+		Cart currentCart = cartRepository.findByCustIdAndPurchaseDateIsNull(customer.getId())
 				.orElse(new Cart(customer));
 		cartRepository.save(currentCart);
-		List<Transaction> persistedInCart = transactionRepository
-				.findAllById_CartNumber(currentCart.getCartNumber());
+		List<Transaction> persistedInCart = transactionRepository.findAllByCartNumber(currentCart.getCartNumber());
+		for(Transaction tran:persistedInCart)
+			tran.setMovie(movieRepository.findById(tran.getMovieId()).orElseThrow());
 		currentCart.setTransactions(persistedInCart);
 		return ResponseEntity.ok(currentCart);
 
@@ -63,7 +65,7 @@ public class PurchaseController {
 	
 	@RequestMapping("/updateCart")
 	public ResponseEntity<Cart> updateCart(@RequestBody Cart cart) throws NoResourceFoundException{
-		Customer customer = customerRepository.findById(cart.getCustomer().getId()).orElseThrow(() -> new NoResourceFoundException("No Customer Found"));
+		Customer customer = customerRepository.findById(cart.getCustId()).orElseThrow(() -> new NoResourceFoundException("No Customer Found"));
 		List<Transaction> cartTransact = cart.getTransactions();
 		purchaseService.changeNumInCart(customer, cart, cartTransact);
 		return ResponseEntity.ok(cart);

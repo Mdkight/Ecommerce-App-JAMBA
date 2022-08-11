@@ -1,13 +1,16 @@
 package com.revature.ecommerce.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
@@ -26,11 +29,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Component
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","transactions"})
+@Table(name="Movie_HM")
 public class Movie {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer Id;//Primary Key
+	private Integer id;//Primary Key
 	
 	
 	private String title;
@@ -41,10 +45,6 @@ public class Movie {
 	private double rating;
 	private int inStock;
 	private String movieCoverLink;
-	
-	
-	@OneToMany(mappedBy = "movie")
-	private Set<Transaction> transactions = new HashSet<>();
 	
 
 	public Movie(String title, String description, String genre, int year, double price,

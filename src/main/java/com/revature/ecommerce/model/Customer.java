@@ -1,21 +1,15 @@
 package com.revature.ecommerce.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +24,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Component
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","carts"})
+@Table(name="Customer_HM")
 public class Customer {
 
 	@Id
@@ -49,11 +44,9 @@ public class Customer {
 	private String address;
 	private String profilePicture; 
 	
-	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-	private Set<Cart> carts = new HashSet<>();
 
 	public Customer(String username, String password, String email, String firstName, String lastName,
-			float accountBalance, String phoneNumber, String address, String profilePicture, Set<Cart> carts) {
+			float accountBalance, String phoneNumber, String address, String profilePicture) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -64,7 +57,7 @@ public class Customer {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.profilePicture = profilePicture;
-		this.carts = carts;
+	
 	}
 	
 	

@@ -1,10 +1,11 @@
 package com.revature.ecommerce.model;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -21,30 +22,27 @@ import lombok.ToString;
 @Setter
 @ToString
 @Component
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","movie","cart"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cart"})
+@Table(name="Transaction_HM")
 public class Transaction {
 	
-	@EmbeddedId
-	private TransactionId id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 	
-	
-	@ManyToOne
-	@MapsId("movieId")
-	@JoinColumn(name = "movie_id")
+	private Integer movieId;
+	@Transient
 	private Movie movie;
-	
-	
-	@ManyToOne
-	@MapsId("cartNumber")
-	@JoinColumn(name = "cart_number")
-	private Cart cart;
+	private Integer cartNumber;
 	
 	private Integer quantity;
 
 	public Transaction(Movie movie, Cart cart, Integer quantity) {
 		super();
-		this.id = new TransactionId(movie.getId(), cart.getCartNumber());
+		this.cartNumber=cart.getCartNumber();
+		this.movieId=movie.getId();
 		this.quantity = quantity;
+		this.movie=movie;
 	}	
 	
 	

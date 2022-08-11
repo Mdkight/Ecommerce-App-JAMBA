@@ -18,15 +18,7 @@ public class Project02EcomAppApplication implements WebMvcConfigurer {
 		SpringApplication.run(Project02EcomAppApplication.class, args);
 	}
 	
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/**").allowedOriginPatterns("http://localhost:4200");
-//			}
-//		};
-//	}
+
 	@Override
     public void addCorsMappings(CorsRegistry registry) {
 
