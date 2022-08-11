@@ -1,6 +1,7 @@
 package com.revature.ecommerce.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +22,12 @@ import com.revature.ecommerce.repository.TransactionRepository;
 
 @Service
 public class PurchaseService {
-	
+
 	CartRepository cartRepository;
 	MovieRepository movieRepository;
 	TransactionRepository transactionRepository;
 	CustomerRepository customerRepository;
-	
+
 	@Autowired
 	public PurchaseService(CartRepository cartRepository, MovieRepository movieRepository,
 			TransactionRepository transactionRepository, CustomerRepository customerRepository) {
@@ -42,54 +43,60 @@ public class PurchaseService {
 		cart.setPurchaseDate(LocalDate.now());
 		cartRepository.save(cart);
 		Customer customer = customerRepository.findById(cart.getCustId()).orElseThrow();
-		if(cart.getTotalPrice()>customer.getAccountBalance()) {
-			throw new Exception("You do not have enough funds in your account to make that purchase, Please add additional funds");
-		}else {
-			
-			List<Transaction> allTransactionsForCart = transactionRepository.findAllByCartNumber(cart.getCartNumber());
-		for (Transaction t : allTransactionsForCart) {
-			Movie movie = movieRepository.findById(t.getMovieId()).orElseThrow(() -> new NoResourceFoundException("No movie found for ID: "+ t.getId()));
-			movie.setInStock(movie.getInStock() - t.getQuantity());
-		}
-		customer.setAccountBalance(customer.getAccountBalance()-cart.getTotalPrice());
+		if (cart.getTotalPrice() > customer.getAccountBalance()) {
+			throw new NoResourceFoundException(
+					"You do not have enough funds in your account to make that purchase, Please add additional funds");
+		} else {
 
-		return cart;
+			List<Transaction> allTransactionsForCart = transactionRepository.findAllByCartNumber(cart.getCartNumber());
+			for (Transaction t : allTransactionsForCart) {
+				Movie movie = movieRepository.findById(t.getMovieId())
+						.orElseThrow(() -> new NoResourceFoundException("No movie found for ID: " + t.getId()));
+				movie.setInStock(movie.getInStock() - t.getQuantity());
+				movieRepository.save(movie);
+			}
+			customer.setAccountBalance(customer.getAccountBalance() - cart.getTotalPrice());
+
+			return cart;
 		}
 
 	}
 
 	@Transactional
 	public Cart addOrRemoveItem(Customer customer, Movie movie, int change) {
-		Cart currentCart = cartRepository.findByCustIdAndPurchaseDateIsNull(customer.getId()).orElseGet(() -> new Cart(customer));
-		if(currentCart==null)
-			currentCart=new Cart(customer);
-		
-		cartRepository.save(currentCart);
-		
-		List<Transaction> allTransactionsForCart = transactionRepository.findAllByCartNumber(currentCart.getCartNumber());
-		boolean success = false;
-			
-		if(allTransactionsForCart!=null) {
-		for(Transaction t:allTransactionsForCart) {
-			if (t.getMovieId().equals(movie.getId())) {
-				t.setQuantity(t.getQuantity() + change);
-				currentCart.setTotalPrice((float) (currentCart.getTotalPrice()+(movie.getPrice()*change)));
-				success = true;
-		}
-			if(t.getQuantity()==0) {
-				transactionRepository.delete(t);
+		Cart currentCart = cartRepository.findByCustIdAndPurchaseDateIsNull(customer.getId())
+				.orElseGet(() -> new Cart(customer));
+		if (currentCart == null)
+			currentCart = new Cart(customer);
+
+		List<Transaction> allTransactionsForCart = transactionRepository
+				.findAllByCartNumber(currentCart.getCartNumber());
+
+		List<Integer> movieIds = new ArrayList<>();
+
+		if (allTransactionsForCart != null) {
+			for (Transaction t : allTransactionsForCart) {
+				movieIds.add(t.getMovieId());
 			}
-			
+			if (movieIds.contains(movie.getId())) {
+				for (Transaction t : allTransactionsForCart) {
+					if (t.getMovieId().equals(movie.getId())) {
+						t.setQuantity(t.getQuantity() + change);
+						currentCart.setTotalPrice((float) (currentCart.getTotalPrice() + (movie.getPrice() * change)));
+						cartRepository.save(currentCart);
+						transactionRepository.save(t);
+						if (t.getQuantity() == 0) {
+							transactionRepository.delete(t);
+						}
+					}
+				}
+
+			} else {
+				Transaction newTran = new Transaction(movie, currentCart, change);
+				transactionRepository.save(newTran);
+			}
 		}
-	}
-		if(!success && change>0) {
-			
-			Transaction newTran=new Transaction(movie, currentCart, change);
-			
-			transactionRepository.save(newTran);
-			
-		}
-			
+
 		allTransactionsForCart = transactionRepository.findAllByCartNumber(currentCart.getCartNumber());
 		cartRepository.save(currentCart);
 		currentCart.setTransactions(allTransactionsForCart);
@@ -97,25 +104,49 @@ public class PurchaseService {
 		return currentCart;
 
 	}
-	
-	@Transactional
-	public Cart changeNumInCart(Customer customer, Cart cart, List<Transaction> cartItems) throws NoResourceFoundException {
+
+//	@Transactional
+	public Cart changeNumInCart(Customer customer, Cart cart, List<Transaction> cartItems)
+			throws NoResourceFoundException {
+
 		Cart currentCart = cartRepository.findByCustIdAndPurchaseDateIsNull(customer.getId())
 				.orElse(new Cart(customer));
 		currentCart.setTotalPrice(0);
 		List<Transaction> persistedInCart = transactionRepository.findAllByCartNumber(cart.getCartNumber());
-		
-		for(Transaction tran:persistedInCart) 
-			transactionRepository.delete(tran);
-		
-		
-		for(Transaction carTran:cartItems) {
-			transactionRepository.save(carTran);
-			Movie currentMovie = movieRepository.findById(carTran.getMovieId()).orElseThrow(() -> new NoResourceFoundException("No movie found for ID: "+ carTran.getMovieId()));
-			currentCart.setTotalPrice((float) (currentCart.getTotalPrice()+(carTran.getQuantity()*currentMovie.getPrice())));
+
+		for (Transaction tran : persistedInCart) {
+
+			for (Transaction carTran : cartItems) {
+
+				if (tran.getMovieId().equals(carTran.getMovieId())) {
+
+					if (carTran.getQuantity() > 0) {
+
+						tran.setQuantity(carTran.getQuantity());
+						currentCart.setTotalPrice((float) (currentCart.getTotalPrice()
+								+ (carTran.getMovie().getPrice() * carTran.getQuantity())));
+						transactionRepository.save(tran);
+					} else {
+
+						transactionRepository.delete(tran);
+					}
+
+					cartItems.remove(carTran);
+				}
+
+			}
+
 		}
-		
+
+		for (Transaction carTran : cartItems) {
+
+			currentCart.setTotalPrice(
+					(float) (currentCart.getTotalPrice() + (carTran.getMovie().getPrice() * carTran.getQuantity())));
+			transactionRepository.save(carTran);
+		}
+
+		cartRepository.save(currentCart);
 		return currentCart;
 	}
-	
+
 }
